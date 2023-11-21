@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url("https://pickamovieforme.b-cdn.net/wp-content/uploads/2020/06/bg.jpg");
+            width: 100%;
+            height: 100%;
+            color: white;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .container .navbar {
+            height: 100px;
+            display: flex;
+        }
+
+        .container .navbar .left {
+            height: 100%;
+            display: flex;
+            float: left;
+        }
+
+        .container .navbar .left img {
+            height: 100px;
+            position: absolute;
+            left: 35px;
+        }
+
+        .container .navbar .right {
+            display: flex;
+            height: 100px;
+            float: right;
+            position: absolute;
+            right: 50px;
+        }
+
+        .container .navbar .right .language {
+            margin: auto;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            padding: 7px 10px;
+            color: white;
+            background: none;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .container .navbar .right .language option {
+            background-color: grey;
+        }
+
+        .container .navbar .right button {
+            margin: auto;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 400;
+            padding: 7px 17px;
+            background: #06f40e;
+            cursor: pointer;
+            outline: none;
+            border-radius: 4px;
+            border: none;
+        }
+
+        .container .navbar .right button a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .container .title {
+            padding: 70px 45px;
+        }
+
+        .container .title .content {
+            width: 950px;
+            margin: auto;
+            padding: 75px 0;
+            text-align: center;
+        }
+
+        .container .title .content h1 {
+            width: 650px;
+            margin: auto;
+            font-size: 3.1rem;
+            text-align: center;
+        }
+
+        .container .title .content h2 {
+            width: 650px;
+            margin: auto;
+            font-size: 1.6rem;
+            text-align: center;
+        }
+    </style>
+
+    <title>MOVIE RECOMMENDATION WEBSITE</title>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="left">
+            </div>
+            <div class="right">
+                <select name="language" class="language">
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                </select>
+                <a href="/login"><button style="margin-top: 32px;">Login</button></a>
+                <a href="/signup"><button style="margin-top: 32px;">Sign Up</button></a>
+            </div>
+        </nav>
+
+        <div class="title">
+            <div class="content">
+                <h1>Welcome To Cinematch:</h1>
+                <h2>Movie Recommendation Website</h2>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
