@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommendations</title>
+    <style>
+        body {
+            background-image: url('https://pickamovieforme.b-cdn.net/wp-content/uploads/2020/06/bg.jpg');
+            background-size: cover;
+        }
+
+        /* Common styles for both sections */
+        .History, .New {
+            font-family: Helvetica, Arial, sans-serif;  /* Change the font to your preferred attractive font */
+            font-size: 30px;
+            color: wheat;
+            text-align: center;
+        }
+
+        /* Styling for the "Movies you liked the best" section */
+        .History {
+            margin-top: 50px;
+        }
+
+        /* Styling for the "Movies we suggest you watch" section */
+        .New {
+            margin-top: 50px;
+            margin-bottom: 50px; /* Adjust the margin-bottom as desired */
+        }
+
+        /* Flexbox layout for displaying watched movie posters side by side */
+        .watched-movies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Adjust the gap between posters as desired */
+        justify-content: center; /* Center the movies horizontally */
+    }
+
+    .watched-movies .movie {
+        text-align: center;
+        flex: 0 0 200px; /* Adjust the width of each movie poster as desired */
+        border-radius: 10px; /* Add a border radius for a rounded look */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow effect for aesthetics */
+        overflow: hidden; /* Hide any overflowing content, if any */
+        background-color: #ffffff; /* Add a white background color */
+        transition: transform 0.2s; /* Add a smooth transition on hover */
+        cursor: pointer; /* Change cursor to a pointer on hover */
+    }
+
+    .watched-movies .movie:hover {
+        transform: scale(1.05); /* Enlarge the movie poster on hover */
+    }
+
+    .watched-movies .movie img {
+        width: 100%; /* Make the movie poster fill its container */
+        height: auto;
+        border-radius: 10px 10px 0 0; /* Rounded top corners for the poster */
+    }
+
+    .watched-movies .movie h3 {
+        margin: 10px 0;
+        font-size: 18px;
+        color: #333333;
+    }
+
+    .watched-movies .movie p {
+        font-size: 14px;
+        color: #666666;
+        margin: 0;
+    }
+        .Out-Container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .Out {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: black;
+            padding: 15px 25px; /* Adjust the button padding */
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .Movie-Posters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Adjust the gap between posters as desired */
+        justify-content: center; /* Center the movies horizontally */
+    }
+
+    .Movie-Poster {
+        text-align: center;
+        flex: 0 0 200px; /* Adjust the width of each movie poster as desired */
+        border-radius: 10px; /* Add a border radius for a rounded look */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow effect for aesthetics */
+        overflow: hidden; /* Hide any overflowing content, if any */
+        background-color: #ffffff; /* Add a white background color */
+        transition: transform 0.2s; /* Add a smooth transition on hover */
+        cursor: pointer; /* Change cursor to a pointer on hover */
+    }
+
+    .Movie-Poster:hover {
+        transform: scale(1.05); /* Enlarge the movie poster on hover */
+    }
+
+    .Movie-Poster img {
+        width: 100%; /* Make the movie poster fill its container */
+        height: auto;
+        border-radius: 10px 10px 0 0; /* Rounded top corners for the poster */
+    }
+
+    .Movie-Poster h3 {
+        margin: 10px 0;
+        font-size: 18px;
+        color: #333333;
+    }
+
+    .Movie-Poster p {
+        font-size: 14px;
+        color: #666666;
+        margin: 0;
+    }
+    </style>
+</head>
+<body>
+    <div class="Out-Container">
+        <a href="/" class="Out">LOGOUT</a>
+    </div>
+    <div class="History">
+        <h1>Movies you liked the best....</h1>
+        <div class="watched-movies">
+            {% for movie in watched_movie_data %}
+                <div class="movie">
+                    <h3>{{ movie.title }}</h3>
+                    <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="New">
+        <h1>Movies we suggest you watch</h1>
+        <div class="Movie-Posters">
+            {% for movie in movie_data %}
+                <div class="Movie-Poster">
+                    <img src="{{ movie.poster_url }}" alt="Movie Poster">
+                    <h3>{{ movie.title }}</h3>
+                    <p>{{ movie.release_year }}</p>
+                    <p>{{ movie.summary }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
