@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie Recommendation</title>
+  <style>
+    body {
+      background-image: url("https://pickamovieforme.b-cdn.net/wp-content/uploads/2020/06/bg.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+
+    .card-container {
+      display: flex;
+    }
+
+
+    .card {
+      display: flex;
+      align-items: center;
+      width: auto;
+      height: auto;
+      border: 1px solid #131313;
+      padding: 20px;
+      position: relative;
+      background-color: #f9f9f9;
+      margin-bottom: 20px;
+    }
+
+
+    .card-img {
+      width: 150px;
+      height: auto;
+      border-radius: 10px;
+      margin-right: 20px;
+    }
+
+
+    .card-content {
+      height:auto;
+      flex: 10;
+    }
+
+
+    .card-title {
+      width:auto;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+
+    .card-genre {
+      width:auto;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+
+    .next-button {
+      display:  inline-block;
+      width: 300px;
+      padding: 10px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      
+    }
+    .next-button:focus{
+      background-color: #333;
+    }
+
+
+    .next-button:hover {
+      background-color: #555;
+    }
+
+
+    .no-movies {
+      text-align: center;
+      color: #555;
+    }
+    
+    .star-container {
+      display: flex;
+      align-items: center;
+    }
+
+
+    .star-button ,.remove-rating-button{
+    background-color: #cfc7c7;
+    border: none;
+    height: 40px;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 2px;
+    font-size: 24px; /* Increase the font size for larger stars */
+    transition: color 0.2s; /* Add a smooth transition for color change */
+    }
+    /* Change the color of stars on hover and for selected stars */
+    .star-button.selected-star {
+      color: aqua;
+    }
+
+
+    /* Reset default anchor styles */
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+
+    /* Styling for the custom button */
+    .custom-button {
+      background-color: #cfc7c7;
+      border: none;
+      cursor: pointer;
+      padding: 5px 10px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+
+    /* Change button color when hovered */
+    .custom-button:hover {
+      background-color: #0bfaee;
+      color: #fff;
+    }
+
+
+    /* Optional: Add additional styles as needed */
+    .custom-button:focus {
+      outline: none; /* Remove the focus outline when button is clicked */
+    }
+  </style>
+</head>
+<body>
+  {% if title %}
+  
+  <div class="card-container">
+    <div class="card">
+      <img class="card-img" src="{{ image[0] }}" alt="{{ title[0] }}">
+      <div class="card-content">
+        <h2 class="card-title">{{ title[0] }}</h2>
+        <p class="card-genre">Genres: {{ genres[0] }}</p>
+      
+        <button class="next-button" onclick="previousMovie()" style="margin-left: 0px;">Previous</button>
+        <button class="next-button" onclick="nextMovie()" style="margin-left: 10px;">Next</button>
+        
+        
+          <a href="{{ link[0] }}" class="custom-button" style="margin-left: 410px; margin-right: 10px;">More Details On IMDB ↗</a>
+          <div class="star-container" style="margin-top: 5px;">
+          <button class="star-button" onclick="rateMovie(1)" style="margin-left: 410px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
+            <span class="icon">★</span>
+          </button>
+          <button class="star-button" onclick="rateMovie(2)">
+            <span class="icon">★</span>
+          </button>
+          <button class="star-button" onclick="rateMovie(3)">
+            <span class="icon">★</span>
+          </button>
+          <button class="star-button" onclick="rateMovie(4)">
+            <span class="icon">★</span>
+          </button>
+          <button class="star-button" onclick="rateMovie(5)" style=" border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
+            <span class="icon">★</span>
+          </button>
+          <button class="remove-rating-button" onclick="removeRating()" style="display: none; border-radius: 7px;">
+            <span class="icon">X</span>
+          </button>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+  {% else %}
+  <div class="card">
+    <p class="no-movies">No movies found</p>
+  </div>
+  {% endif %}
+
+
+  <script>
+    var title = {{ title|tojson }};
+    var genres = {{ genres|tojson }};
+    var image = {{ image|tojson }};
+    var link = {{ link|tojson }};
+
+
+    var currentIndex = 0;
+    var cardContainer = document.querySelector(".card-container");
+    var card = document.querySelector(".card");
+
+
+    function displayMovie(index) {
+      var img = card.querySelector(".card-img");
+      img.src = image[index];
+      img.alt = title[index];
+
+
+      card.querySelector(".card-title").textContent = title[index];
+      card.querySelector(".card-genre").textContent = "Genres: " + genres[index];
+      card.querySelector(".custom-button").setAttribute("href", link[index]);
+    }
+
+
+    function previousMovie() {
+      removeRating();
+      currentIndex = (currentIndex - 1 + title.length) % title.length;
+      displayMovie(currentIndex);
+    }
+
+
+    function nextMovie() {
+      removeRating();
+      currentIndex = (currentIndex + 1) % title.length;
+      displayMovie(currentIndex);
+    }
+
+
+    if (title) {
+      displayMovie(currentIndex);
+    }
+
+
+    function rateMovie(stars) {
+      var starButtons = document.querySelectorAll(".star-button");
+      var removeRatingButton = document.querySelector(".remove-rating-button");
+
+
+      // Add the selected-star class to the clicked star button and all the ones before it
+      for (var i = 0; i < stars; i++) {
+        starButtons[i].classList.add("selected-star");
+      }
+
+
+      // Remove the selected-star class from all the stars after the selected one
+      for (var i = stars; i < starButtons.length; i++) {
+        starButtons[i].classList.remove("selected-star");
+      }
+
+
+      // Show the remove rating button
+      removeRatingButton.style.display = "inline-block";
+
+
+      // Send the rating data to the recommendation route as JSON
+      var ratingData = {
+        title: title[currentIndex],
+        rating: stars // The selected rating (1 to 5)
+      };
+
+
+      fetch("/recomendation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(ratingData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data, if needed
+        console.log(data);
+        // Reload the page to show the next movie after rating
+        window.location.reload();
+      })
+      .catch(error => console.error("Error:", error));
+    }
+
+
+    function removeRating() {
+      var starButtons = document.querySelectorAll(".star-button");
+      var removeRatingButton = document.querySelector(".remove-rating-button");
+
+
+      // Remove the selected-star class from all the star buttons
+      for (var i = 0; i < starButtons.length; i++) {
+        starButtons[i].classList.remove("selected-star");
+      }
+
+
+      // Hide the remove rating button
+      removeRatingButton.style.display = "none";
+
+
+      // Send the rating data to the recommendation route as JSON
+      var ratingData = {
+        title: title[currentIndex],
+        rating: 0 // Set the rating to null to remove the rating
+      };
+
+
+      fetch("/recomendation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(ratingData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data, if needed
+        console.log(data);
+        // Reload the page to show the next movie after removing the rating
+        window.location.reload();
+      })
+      .catch(error => console.error("Error:", error));
+    }
+  </script>
+</body>
+</html>
